@@ -37,19 +37,11 @@ public class Crowds : MonoBehaviour {
 		PrototypePerson = GameObject.Find("Prototype Person");
 		PlayerTransform = GameObject.Find("Player").GetComponent<Transform>();
 		CrowdsList = new List<Person>();
-
+		Vector3 tempPos = Vector3.zero;
 		for (int i = 0; i < crowdsNum; i++) {
-			int x = 0, y = 0;
-			while(map.IsWall[x, y] || x <= 0) {
-				x = Random.Range(padding, Map.Precision-padding);
-				y = Random.Range(padding, Map.Precision-padding);
-				if (Mathf.Abs(map.initFire[0] - x) + Mathf.Abs(map.initFire[1] - y) <= 3)
-					continue;
-			}
-			Vector3 pos = map.PixelToWorldCoord(x, y) + Vector3.up * 0.4f;
-			//Debug.Log(pos);
-			CrowdsList.Add(new Person(Instantiate(PrototypePerson, pos, Quaternion.identity)));
+			CrowdsList.Add(new Person(Instantiate(PrototypePerson, tempPos, Quaternion.identity)));
 		}
+		Init();
 	}
 
 	public void Init() {

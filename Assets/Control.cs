@@ -10,6 +10,7 @@ public class Control : MonoBehaviour {
 	public MeshRenderer PlayerRenderer;
 	public float maxspeed;
 	public float speed;
+	public float smokeSpReduceRate;
 	public float maxhp;
 	public float hp;
 	public bool endgameflag = false;
@@ -37,6 +38,7 @@ public class Control : MonoBehaviour {
 		PlayerRenderer = GetComponent<MeshRenderer>();
 		maxhp = 200f;
 		maxspeed = 2.5f;
+		smokeSpReduceRate = 0.67f;
 		minFollowDistance = 1.0f;
 		crowdsMaxSpeed = 8.0f;
 		hpUpdateFPS = 5;
@@ -98,7 +100,7 @@ public class Control : MonoBehaviour {
 	void UpdateSpeed() {
 		Vector2 pixel = map.WorldCoordToPixel(PlayerTransform.position);
 		if (pixel.x > 0 && pixel.y > 0 && pixel.x < Map.Precision && pixel.y < Map.Precision) {
-			speed = maxspeed * (0.33f + 0.67f * (1.0f - map.SmokeDensity[(int)pixel.x, (int)pixel.y]));
+			speed = maxspeed * ((1.0f - smokeSpReduceRate) + smokeSpReduceRate * (1.0f - map.SmokeDensity[(int)pixel.x, (int)pixel.y]));
 		}
 		else {
 			speed = maxspeed;
